@@ -101,6 +101,13 @@ article {
   box-shadow: 1px 1px 6px rgba($color: $black, $alpha: 0.4);
   border-radius: $border-radius $border-radius 0 0;
   padding: 20px;
+  overflow-y: auto;
+  @include tablet {
+    height: calc(100% - 70px);
+  }
+  @include mobile {
+    height: calc(100% - 10px);
+  }
 }
 
 .stat-info {
@@ -122,7 +129,7 @@ article {
         word-break: keep-all;
         color: $color;
         font-weight: 700;
-        font-size: 18px;
+        font-size: rem(18);
         margin-bottom: 20px;
       }
     }
@@ -138,7 +145,7 @@ article {
 
 .charger-info {
   h3 {
-    font-size: 18px;
+    font-size: rem(18);
     font-weight: 700;
     margin-bottom: 20px;
   }
@@ -162,7 +169,7 @@ article {
     @include type($teal, 3);
     @include type($blue, 9);
     h4 {
-      font-size: 16px;
+      font-size: rem(16);
       font-weight: 500;
       width: 150px;
       span {
@@ -173,13 +180,20 @@ article {
       }
     }
   }
+  @include tablet {
+    li {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
 }
 
 .close-btn {
   position: absolute;
   right: 20px;
   top: 10px;
-  font-size: 30px;
+  font-size: rem(30);
   cursor: pointer;
 }
 

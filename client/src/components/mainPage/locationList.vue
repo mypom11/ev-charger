@@ -89,5 +89,40 @@ export default {
       }
     }
   }
+  @include tablet {
+    top: 10px;
+    right: 10px;
+    &.open {
+      min-width: 140px;
+    }
+  }
+  @include mobile {
+    right: auto;
+    left: 10px;
+    top: 20px;
+    .open-btn {
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      h3 {
+        display: none;
+      }
+    }
+    &.open {
+      background: transparent;
+      box-shadow: none;
+      .location-list {
+        margin-top: 4px;
+        background: $white;
+        border-radius: $border-radius;
+        box-shadow: 1px 1px 6px rgba($color: $black, $alpha: 0.4);
+        border: 1px solid $primary;
+      }
+    }
+  }
 }
 </style>

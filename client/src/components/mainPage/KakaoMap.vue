@@ -149,7 +149,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["searchList", "selectedStat"]),
+    ...mapState(["searchList", "selectedStat", "mapCenter"]),
   },
 
   watch: {
@@ -159,15 +159,13 @@ export default {
         this.makeMarker(this.searchList);
       },
     },
-    selectedStat: {
+    mapCenter: {
       deep: true,
       handler() {
-        if (this.selectedStat === null) {
-          return;
-        } else {
+        if (this.mapCenter !== {}) {
           const coords = new kakao.maps.LatLng(
-            this.selectedStat[0].lat,
-            this.selectedStat[0].lng
+            this.mapCenter.lat,
+            this.mapCenter.lng
           );
           this.map.setLevel(3);
           this.map.setCenter(coords);

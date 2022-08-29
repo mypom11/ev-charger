@@ -1,7 +1,7 @@
 <template>
   <section>
     <article class="search-section" :class="{ focus: focus === true }">
-      <h1>logo</h1>
+      <h1>전기차 충전소 검색</h1>
       <div class="search-box" @click="focus = !focus">
         <!-- <span>
           <font-awesome-icon :icon="['fas', 'bars-staggered']" />
@@ -55,22 +55,26 @@ section {
   height: 100%;
 }
 .search-section {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   transition: 0.4s;
   width: 80%;
+  margin: 20px auto 70px;
+  transform: translateY(30vh);
   &.focus {
-    top: 0%;
-    transform: translate(-50%, 0);
+    transform: translateY(0);
+  }
+  @include mobile {
+    width: 90%;
+    margin: 20px auto 30px;
   }
 }
 
 h1 {
   margin-bottom: rem(20);
-  font-size: 70px;
+  font-size: rem(70);
   font-weight: 700;
+  @include mobile {
+    font-size: 30px;
+  }
 }
 .search-box {
   padding: rem(20) rem(30);
@@ -102,37 +106,60 @@ h1 {
       box-shadow: 1px 1px 6px rgba($color: $black, $alpha: 0.16);
     }
   }
+  @include mobile {
+    padding: 10px 15px;
+    font-size: 16px;
+    input {
+      font-size: 16px;
+    }
+  }
 }
 
 .location-list {
-  width: 60%;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, 0);
+  margin: 0 auto;
+  width: 80%;
   transition: 0.4s;
-  &.focus {
-    top: 30%;
-  }
+  transform: translateY(100vh);
   ul {
     @include flex(center);
     flex-wrap: wrap;
-    gap: 20px;
+    gap: rem(20);
     li {
       font-weight: 600;
       font-size: rem(24);
-      min-width: 240px;
+      min-width: 200px;
       text-align: center;
       word-break: keep-all;
       border-radius: 5px;
       border: 1px solid $black;
-      padding: 20px 30px;
+      padding: rem(20) rem(30);
       background: $white;
       cursor: pointer;
       transition: 0.2s;
       &:hover {
         transform: scale(1.2);
         box-shadow: 1px 1px 6px rgba($color: $black, $alpha: 0.16);
+      }
+    }
+  }
+  &.focus {
+    transform: translateY(0);
+  }
+  @include tablet {
+    width: 80%;
+    ul {
+      li {
+        min-width: 100px;
+      }
+    }
+  }
+  @include mobile {
+    width: 90%;
+    ul {
+      gap: 10px;
+      li {
+        font-size: 14px;
+        min-width: 48%;
       }
     }
   }

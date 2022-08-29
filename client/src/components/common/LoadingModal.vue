@@ -3,7 +3,7 @@
     <div class="loading-wrap">
       <div class="loading-icon"></div>
       <div class="loading-text">
-        <h3>데이터 다운로드 중입니다.</h3>
+        <h3>{{ desc }}</h3>
         <p>잠시만 기다려주시기 바랍니다.</p>
       </div>
     </div>
@@ -14,9 +14,10 @@
 export default {
   name: "LoadingModal",
   props: {
-    width: String,
-    height: String,
-    title: String,
+    desc: {
+      type: String,
+      default: "데이터 다운로드 중입니다.",
+    },
   },
   data() {
     return {};

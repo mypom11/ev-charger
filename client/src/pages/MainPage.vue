@@ -9,7 +9,7 @@
     <article class="location">
       <LocationList />
     </article>
-    <LoadingModal v-if="loadingFlag" />
+    <LoadingModal v-if="loadingFlag === true" />
   </section>
 </template>
 
@@ -44,14 +44,13 @@ export default {
     async GET_CHARGER_DATA() {
       this.loadingFlag = true;
       this.SET_CARD_FLAG(false);
-      const num = 8000;
+      const num = 6000;
       const chargerData = await getCharger({
         pageNo: 1,
         numOfRows: num,
         zcode: this.$route.query.zcode,
       })
         .then((res) => {
-          console.log(res);
           this.loadingFlag = false;
           this.SET_CARD_FLAG(true);
           return res.data.items.item;
@@ -90,4 +89,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/scss/_variables.scss";
+section {
+  @include mobile {
+    height: 100vh;
+  }
+}
 </style>

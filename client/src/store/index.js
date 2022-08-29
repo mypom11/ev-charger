@@ -7,6 +7,7 @@ export default createStore({
     searchList: [],
     selectedStat: null,
     cardFlag: false,
+    mapCenter: {},
   },
   getters: {},
   mutations: {
@@ -18,9 +19,15 @@ export default createStore({
     },
     SET_SELECTED_STAT(state, payload) {
       state.selectedStat = payload;
+      if (payload !== null) {
+        state.mapCenter = { lat: payload[0].lat, lng: payload[0].lng };
+      }
     },
     SET_CARD_FLAG(state, payload) {
       state.cardFlag = payload;
+    },
+    SET_MAP_CENTER(state, payload) {
+      state.mapCenter = { lat: payload[0].lat, lng: payload[0].lng };
     },
   },
   actions: {},

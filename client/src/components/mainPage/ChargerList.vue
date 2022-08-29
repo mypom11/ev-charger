@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <article>
     <div class="input-box">
       <input
         type="text"
-        v-model="searchText"
         placeholder="검색어를 입력하세요."
         @focus="SET_CARD_FLAG(true), SET_SELECTED_STAT(null)"
+        @keydown.enter="search"
       />
-      <button>
+      <button @click="search">
         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
       </button>
     </div>
@@ -31,13 +31,16 @@
             <p :class="`type-${isUsable(list)}`">{{ statCheck(list) }}</p>
           </div>
         </li>
+        <li v-if="resultList.length === 0">
+          <h3 class="mb-0">조회된 검색 결과가 없습니다.</h3>
+        </li>
       </ul>
       <button class="card-toggle" @click="SET_CARD_FLAG(!cardFlag)">
         <font-awesome-icon :icon="['fas', closeIconName]" />
       </button>
       <DetailStat />
     </div>
-  </div>
+  </article>
 </template>
 
 <script>
@@ -55,7 +58,12 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["SET_SEARCH_LIST", "SET_SELECTED_STAT", "SET_CARD_FLAG"]),
+    ...mapMutations([
+      "SET_SEARCH_LIST",
+      "SET_SELECTED_STAT",
+      "SET_CARD_FLAG",
+      "SET_MAP_CENTER",
+    ]),
     statCheck(list) {
       //여러개의 충전소가 있을경우 몇개가 충전가능인지 확인할 수 있게하는 function
       if (list.length === 1) {
@@ -91,12 +99,19 @@ export default {
     selectStat(list) {
       this.SET_SELECTED_STAT(list);
     },
+    search($e) {
+      //렉을 방지 하기 위해 v-model제거하고 검색 함수로 사용
+      this.searchText = $e.target.value;
+    },
   },
   computed: {
     ...mapState(["chargerData", "selectedStat", "cardFlag"]),
+
     resultList: function () {
       //검색 조건으로 결과 리스트를 스토어로 커밋 결과 리스트를 kakaoMap에서 컨트롤 가능
       //computed에 넣음으로써 한글자 한글자 바뀔때마다 리스트가 바뀜.
+
+      //데이터가 많을 경우 렉이 걸려 엔터를 치거나 검색 클릭으로 방식 변경
       let result;
       if (this.searchText === null || this.searchText === "") {
         result = this.chargerData.filter(
@@ -127,6 +142,10 @@ export default {
         return Number(usable(a)) - Number(usable(b));
       });
       this.SET_SEARCH_LIST(result);
+      //검색결과 주변으로 이동
+      if (result.length !== 0) {
+        this.SET_MAP_CENTER(result[0]);
+      }
       return result;
     },
 
@@ -167,6 +186,7 @@ export default {
   z-index: 50;
   width: 450px;
   background: $white;
+  overflow: hidden;
   input {
     width: 100%;
     height: 50px;
@@ -178,8 +198,25 @@ export default {
     top: 50%;
     transform: translate(0, -50%);
     background: transparent;
-    font-size: 18px;
+    font-size: rem(18);
     cursor: pointer;
+  }
+  @include tablet {
+    top: 20px;
+    left: 10px;
+    width: 320px;
+    padding: 0 10px;
+    input {
+      height: 38px;
+    }
+    button {
+      right: 10px;
+    }
+  }
+  @include mobile {
+    width: calc(100% - 70px);
+    left: 60px;
+    top: 20px;
   }
 }
 .card {
@@ -210,6 +247,36 @@ export default {
   &.close {
     left: 0;
     transform: translateX(-100%);
+  }
+  @include tablet {
+    width: 340px;
+    padding: 10px;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+  @include mobile {
+    left: 0;
+    top: auto;
+    bottom: 0;
+    height: 60vh;
+    width: 100%;
+    &.close {
+      transform: translateY(100%);
+    }
+    .card-toggle {
+      top: 0;
+      right: auto;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      height: auto;
+      width: 100px;
+      font-size: 14px;
+      border-radius: 5px 5px 0 0;
+      svg {
+        transform: rotate(-90deg);
+      }
+    }
   }
 }
 
@@ -285,6 +352,10 @@ export default {
     &:last-child {
       margin-bottom: 0;
     }
+  }
+  @include mobile {
+    margin-top: 20px;
+    height: calc(100% - 20px);
   }
 }
 </style>
